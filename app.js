@@ -1,9 +1,23 @@
 const PUBLIC_KEY = `-----BEGIN PGP PUBLIC KEY BLOCK-----
-...
+
+xjMEahLQjxYJKwYBBAHaRw8BAQdADEhGZessO7bvKfaNyeSEfm051vkEtVLF
+anGMSdTwJ8bNOWh1dXJkZXItYmFybnN0aWpuQHByb3Rvbi5tZSA8aHV1cmRl
+ci1iYXJuc3Rpam5AcHJvdG9uLm1lPsLAEQQTFgoAgwWCahLQjwMLCQcJEHSG
+Xmb7uAIuRRQAAAAAABwAIHNhbHRAbm90YXRpb25zLm9wZW5wZ3Bqcy5vcmex
+lKcckelqjIv48WAt8wHFRff0e/hVhRYw2hlSeIOg8QMVCggEFgACAQIZAQKb
+AwIeARYhBCgNYbxnvY+82X0bM3SGXmb7uAIuAAA/wwEAujtHTSuAfUfXq72R
+VNts0xaKcD0SoyCeNWyDUG/3jjQA/jCENHZQEwKo6kiMXbpbXyyoC5FICTB1
+K1yOOkT1l4sJzjgEahLQjxIKKwYBBAGXVQEFAQEHQHgHmKIMnEVNz2jU85jP
+366GCfISHvIU5atAKtHt4JJmAwEIB8K+BBgWCgBwBYJqEtCPCRB0hl5m+7gC
+LkUUAAAAAAAcACBzYWx0QG5vdGF0aW9ucy5vcGVucGdwanMub3JnjL9zvFzb
+9VW9HZqxwi2CghpbNHGIBlFcegqH4TjTQUECmwwWIQQoDWG8Z72PvNl9GzN0
+hl5m+7gCLgAAcLoBAIQM6RDrj61LZzNz8pstsbQdzIwsP0gVBLaFTWqRb1Jn
+AP0TEnMdpA0lvmkbn78k2aF/ktR5RHqOszzWtKzLphw5Bw==
+=jOSu
 -----END PGP PUBLIC KEY BLOCK-----`;
 
 const FORM_ENDPOINT = "https://api.web3forms.com/submit";
-const WEB3FORMS_ACCESS_KEY = "";
+const WEB3FORMS_ACCESS_KEY = "5cb97146-6a95-4a46-8a4a-41d1e9103a7b";
 
 const state = {
   lang: "nl",
@@ -573,16 +587,17 @@ async function submitForm(form) {
       answers: state.answers
     });
 
+    const formData = new FormData();
+    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.append("subject", "Encrypted Barnstijn tenant initiative response");
+    formData.append("from_name", "Barnstijn tenant initiative");
+    formData.append("email", email);
+    formData.append("message", encryptedPayload);
+    formData.append("encrypted_payload", encryptedPayload);
+
     const response = await fetch(FORM_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: "Encrypted Barnstijn tenant initiative response",
-        from_name: "Barnstijn tenant initiative",
-        email,
-        encrypted_payload: encryptedPayload
-      })
+      body: formData
     });
 
     if (!response.ok) {
