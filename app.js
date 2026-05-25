@@ -50,9 +50,11 @@ const copy = {
     stepOneQuestion: "Bent u huurder van Barnstijn Beheer B.V.?",
     stepTwoKicker: "Stap 2 - Servicekosten",
     stepTwoQuestion: `Heeft u deze {hotspot:clause:servicekosten-clausule} in uw huurcontract?`,
+    stepTwoSame: "Ja, vrijwel hetzelfde",
+    stepTwoSimilar: "Ja, vergelijkbaar",
     stepThreeKicker: "Stap 3 - Huurderscommissie",
     stepThreeQuestion: `Wilt u {hotspot:help:meewerken} aan de opbouw van een {hotspot:committee:huurderscommissie}?`,
-    stepThreeYes: "Graag",
+    stepThreeYes: "Ja",
     stepThreeMaybe: "Alleen als niemand anders wil",
     stepThreeNo: "Nee",
     stepFourKicker: "Stap 4 - Contact en privacy",
@@ -113,9 +115,11 @@ const copy = {
     stepOneQuestion: "Are you a tenant of Barnstijn Beheer B.V.?",
     stepTwoKicker: "Step 2 - Service costs",
     stepTwoQuestion: `Do you have this {hotspot:clause:service cost clause} in your rental contract?`,
+    stepTwoSame: "Yes, quite the same",
+    stepTwoSimilar: "Yes, similar",
     stepThreeKicker: "Step 3 - Tenant committee",
     stepThreeQuestion: `Would you {hotspot:help:help build} a {hotspot:committee:tenant committee}?`,
-    stepThreeYes: "Yes, gladly",
+    stepThreeYes: "Yes",
     stepThreeMaybe: "Only if nobody else does",
     stepThreeNo: "No",
     stepFourKicker: "Step 4 - Contact and GDPR",
@@ -165,7 +169,8 @@ const steps = [
         question: renderHotspots(t.stepTwoQuestion),
         afterQuestion: renderClauseReference(),
         options: [
-          { label: t.yes, value: "yes" },
+          { label: t.stepTwoSame, value: "yes_quite_the_same" },
+          { label: t.stepTwoSimilar, value: "yes_similar" },
           { label: t.no, value: "no" }
         ]
       });
