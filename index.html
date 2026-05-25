@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Tenant initiative for tenants of Barnstijn Beheer B.V.">
+    <title>Huurders Barnstijn Beheer B.V.</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/openpgp@5.11.2/dist/openpgp.min.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar" aria-label="Site header">
+        <a class="brand" href="#home" aria-label="Go to landing page">
+          <span class="brand-mark" aria-hidden="true">B</span>
+          <span>
+            <span class="brand-title">Barnstijn tenants</span>
+            <span class="brand-subtitle" data-i18n="brandSubtitle">Huurdersinitiatief</span>
+          </span>
+        </a>
+
+        <div class="language-switch" aria-label="Language">
+          <button class="lang-button is-active" type="button" data-lang="nl" aria-pressed="true">NL</button>
+          <button class="lang-button" type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="view landing-view is-active" id="home" data-view="landing" aria-labelledby="landing-title">
+          <div class="landing-grid">
+            <div class="landing-copy">
+              <p class="eyebrow" data-i18n="landingEyebrow">Samen organiseren</p>
+              <h1 id="landing-title" data-i18n="landingHeadline">Huurders van Barnstijn Beheer B.V. – Laten we samen sterk staan.</h1>
+              <p class="landing-body" data-i18n="landingBody">
+                Veel huurders hebben clausules in hun contract waardoor de verhuurder mogelijk onterecht kosten aan ons doorberekent (zoals afschrijving van meubilair via de servicekosten). Door ons te verenigen kunnen we meer transparantie eisen, kosten verlagen en als één blok onderhandelen. Dit initiatief is 100% veilig en uw gegevens worden lokaal versleuteld.
+              </p>
+              <div class="cta-row">
+                <button class="primary-action" type="button" data-action="start" data-i18n="ctaStart">Start / Doe mee</button>
+              </div>
+            </div>
+
+            <div class="trust-panel" aria-label="Security and purpose">
+              <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">01</span>
+                <div>
+                  <h2 data-i18n="trustOneTitle">Lokaal versleuteld</h2>
+                  <p data-i18n="trustOneBody">Uw antwoorden worden in de browser versleuteld voordat ze worden verzonden.</p>
+                </div>
+              </div>
+              <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">02</span>
+                <div>
+                  <h2 data-i18n="trustTwoTitle">Heldere belangen</h2>
+                  <p data-i18n="trustTwoBody">Het doel is transparantie, lagere kosten en gezamenlijke vertegenwoordiging.</p>
+                </div>
+              </div>
+              <div class="trust-item">
+                <span class="trust-icon" aria-hidden="true">03</span>
+                <div>
+                  <h2 data-i18n="trustThreeTitle">Minimale gegevens</h2>
+                  <p data-i18n="trustThreeBody">Alleen de antwoorden en uw e-mailadres worden verwerkt.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="view wizard-view" id="form" data-view="wizard" aria-live="polite" aria-labelledby="wizard-title">
+          <div class="wizard-shell">
+            <div class="progress-wrap" aria-label="Form progress">
+              <div class="progress-meta">
+                <span id="wizard-title" data-i18n="wizardTitle">Aanmelden</span>
+                <span data-progress-label>Stap 1 van 4</span>
+              </div>
+              <div class="progress-track" aria-hidden="true">
+                <span class="progress-fill" data-progress-fill></span>
+              </div>
+            </div>
+
+            <article class="question-card" data-question-card>
+              <div class="question-content" data-question-content></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="tooltip-layer" data-tooltip-layer hidden>
+      <div class="tooltip-card" role="dialog" aria-modal="false" aria-live="polite">
+        <button class="tooltip-close" type="button" data-tooltip-close aria-label="Close tooltip">×</button>
+        <p data-tooltip-text></p>
+      </div>
+    </div>
+  </body>
+</html>
