@@ -185,84 +185,101 @@ const steps = [
   }
 ];
 
-const views = document.querySelectorAll("[data-view]");
-const questionContent = document.querySelector("[data-question-content]");
-const progressLabel = document.querySelector("[data-progress-label]");
-const progressFill = document.querySelector("[data-progress-fill]");
-const tooltipLayer = document.querySelector("[data-tooltip-layer]");
-const tooltipText = document.querySelector("[data-tooltip-text]");
-const tooltipCard = document.querySelector(".tooltip-card");
+let views;
+let questionContent;
+let progressLabel;
+let progressFill;
+let tooltipLayer;
+let tooltipText;
+let tooltipCard;
 let activeTooltipTrigger = null;
 
-document.addEventListener("click", event => {
-  const start = event.target.closest("[data-action='start']");
-  const lang = event.target.closest("[data-lang]");
-  const option = event.target.closest("[data-option-value]");
-  const back = event.target.closest("[data-action='back']");
-  const hotspot = event.target.closest("[data-hotspot]");
-  const closeTooltip = event.target.closest("[data-tooltip-close]");
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
+}
 
-  if (start) {
-    showView("wizard");
-    setStep(0);
+function initApp() {
+  views = document.querySelectorAll("[data-view]");
+  questionContent = document.querySelector("[data-question-content]");
+  progressLabel = document.querySelector("[data-progress-label]");
+  progressFill = document.querySelector("[data-progress-fill]");
+  tooltipLayer = document.querySelector("[data-tooltip-layer]");
+  tooltipText = document.querySelector("[data-tooltip-text]");
+  tooltipCard = document.querySelector(".tooltip-card");
+
+  if (!questionContent || !progressLabel || !progressFill || !tooltipLayer || !tooltipText || !tooltipCard) {
+    console.error("The tenant initiative app could not find its required HTML elements.");
+    return;
   }
 
-  if (lang) {
-    setLanguage(lang.dataset.lang);
-  }
+  document.addEventListener("click", event => {
+    const start = event.target.closest("[data-action='start']");
+    const lang = event.target.closest("[data-lang]");
+    const option = event.target.closest("[data-option-value]");
+    const back = event.target.closest("[data-action='back']");
+    const hotspot = event.target.closest("[data-hotspot]");
+    const closeTooltip = event.target.closest("[data-tooltip-close]");
 
-  if (option) {
-    selectOption(option);
-  }
+    if (start) {
+      showView("wizard");
+      setStep(0);
+    }
 
-  if (back) {
-    goBack();
-  }
+    if (lang) {
+      setLanguage(lang.dataset.lang);
+    }
 
-  if (hotspot) {
+    if (option) {
+      selectOption(option);
+    }
+
+    if (back) {
+      goBack();
+    }
+
+    if (hotspot) {
+      event.preventDefault();
+      event.stopPropagation();
+      showTooltip(hotspot);
+    } else if (!event.target.closest(".tooltip-card") || closeTooltip) {
+      hideTooltip();
+    }
+  });
+
+  document.addEventListener("mouseover", event => {
+    const hotspot = event.target.closest("[data-hotspot]");
+    if (hotspot && window.matchMedia("(hover: hover) and (min-width: 621px)").matches) {
+      showTooltip(hotspot);
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      hideTooltip();
+    }
+  });
+
+  questionContent.addEventListener("input", event => {
+    if (event.target.name === "email") {
+      state.answers.email = event.target.value;
+    }
+
+    if (event.target.name === "consent") {
+      state.answers.consent = event.target.checked;
+      const submit = questionContent.querySelector("[data-submit-button]");
+      if (submit) submit.disabled = !event.target.checked;
+    }
+  });
+
+  questionContent.addEventListener("submit", async event => {
     event.preventDefault();
-    event.stopPropagation();
-    showTooltip(hotspot);
-  } else if (!event.target.closest(".tooltip-card") || closeTooltip) {
-    hideTooltip();
-  }
-});
+    await submitForm(event.target);
+  });
 
-document.addEventListener("mouseover", event => {
-  const hotspot = event.target.closest("[data-hotspot]");
-  if (hotspot && window.matchMedia("(hover: hover)").matches) {
-    showTooltip(hotspot);
-  }
-});
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") {
-    hideTooltip();
-  }
-});
-
-questionContent.addEventListener("input", event => {
-  if (event.target.name === "email") {
-    state.answers.email = event.target.value;
-  }
-
-  if (event.target.name === "consent") {
-    state.answers.consent = event.target.checked;
-    const submit = questionContent.querySelector("[data-submit-button]");
-    if (submit) submit.disabled = !event.target.checked;
-  }
-});
-
-questionContent.addEventListener("submit", async event => {
-  event.preventDefault();
-  await submitForm(event.target);
-});
-
-document.querySelectorAll("[data-lang]").forEach(button => {
-  button.addEventListener("click", () => setLanguage(button.dataset.lang));
-});
-
-applyTranslations();
+  applyTranslations();
+}
 
 function setLanguage(lang) {
   if (!copy[lang]) return;
