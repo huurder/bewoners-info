@@ -9,8 +9,7 @@ const state = {
   lang: "nl",
   currentStep: 0,
   answers: {},
-  submitting: false,
-  readerScale: 1
+  submitting: false
 };
 
 const copy = {
@@ -35,12 +34,10 @@ const copy = {
     emailLabel: "E-mailadres",
     emailPlaceholder: "naam@example.com",
     imageFallback: "Plaats servicekosten.png naast index.html om de clausule hier te tonen.",
-    textVersionButton: "Beter toegankelijke versie",
-    textVersionKicker: "Beter leesbare versie",
-    textVersionTitle: "Servicekosten",
-    readerSmaller: "Tekst kleiner",
-    readerReset: "Tekstgrootte resetten",
-    readerLarger: "Tekst groter",
+    textVersionButton: "Toegankelijke tekstversie",
+    textVersionKicker: "Toegankelijke tekstversie",
+    textVersionTitle: "Paragraaf uit huurovereenkomst",
+    closeText: "Sluiten",
     terminatedTitle: "Bedankt voor uw tijd.",
     terminatedBody: "Dit initiatief is bedoeld voor huurders van Barnstijn Beheer B.V.",
     successTitle: "Dank u, uw aanmelding is veilig verzonden.",
@@ -100,12 +97,10 @@ const copy = {
     emailLabel: "Email address",
     emailPlaceholder: "name@example.com",
     imageFallback: "Place servicekosten_eng.png next to index.html to show the clause here.",
-    textVersionButton: "Better accessible version",
-    textVersionKicker: "Better accessible version",
-    textVersionTitle: "Service charges",
-    readerSmaller: "Smaller text",
-    readerReset: "Reset text size",
-    readerLarger: "Larger text",
+    textVersionButton: "Accessible text version",
+    textVersionKicker: "Accessible text version",
+    textVersionTitle: "Rental Contract Paragraph",
+    closeText: "Close",
     terminatedTitle: "Thank you for your time.",
     terminatedBody: "This initiative is intended for tenants of Barnstijn Beheer B.V.",
     successTitle: "Thank you, your response was sent securely.",
@@ -264,7 +259,7 @@ function initApp() {
     const back = event.target.closest("[data-action='back']");
     const hotspot = event.target.closest("[data-hotspot]");
     const closeTooltip = event.target.closest("[data-tooltip-close]");
-    const textAction = event.target.closest("[data-action='open-text'], [data-action='close-text'], [data-action='reader-smaller'], [data-action='reader-reset'], [data-action='reader-larger']");
+    const textAction = event.target.closest("[data-action='open-text'], [data-action='close-text']");
 
     if (start) {
       showView("wizard");
@@ -475,22 +470,7 @@ function handleTextAction(action) {
 
   if (action === "close-text") {
     textDialog.close();
-    return;
   }
-
-  if (action === "reader-smaller") {
-    state.readerScale = Math.max(0.85, state.readerScale - 0.1);
-  }
-
-  if (action === "reader-reset") {
-    state.readerScale = 1;
-  }
-
-  if (action === "reader-larger") {
-    state.readerScale = Math.min(1.55, state.readerScale + 0.1);
-  }
-
-  applyReaderScale();
 }
 
 function openTextVersion() {
@@ -498,10 +478,9 @@ function openTextVersion() {
   textDialogKicker.textContent = t.textVersionKicker;
   textDialogTitle.textContent = t.textVersionTitle;
   textReader.innerHTML = renderServiceText(t.serviceText);
-  textDialog.querySelector("[data-action='reader-smaller']").setAttribute("aria-label", t.readerSmaller);
-  textDialog.querySelector("[data-action='reader-reset']").setAttribute("aria-label", t.readerReset);
-  textDialog.querySelector("[data-action='reader-larger']").setAttribute("aria-label", t.readerLarger);
-  applyReaderScale();
+  const closeButton = textDialog.querySelector("[data-action='close-text']");
+  closeButton.textContent = t.closeText;
+  closeButton.setAttribute("aria-label", t.closeText);
   textDialog.showModal();
 }
 
@@ -513,10 +492,6 @@ function renderServiceText(text) {
     <p>- ${escapeHtml(text.line)}</p>
     <ul>${items}</ul>
   `;
-}
-
-function applyReaderScale() {
-  textReader.style.setProperty("--reader-scale", state.readerScale.toFixed(2));
 }
 
 function renderHotspots(text) {

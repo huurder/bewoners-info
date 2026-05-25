@@ -369,18 +369,20 @@ h1 {
 }
 
 .text-version-action {
-  min-height: 44px;
-  padding: 0 14px;
-  border: 1px solid rgba(11, 111, 111, 0.28);
-  border-radius: var(--radius);
-  color: var(--accent-strong);
-  background: var(--accent-soft);
-  font-weight: 850;
+  min-height: 38px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(11, 111, 111, 0.38);
+  border-radius: 0;
+  color: #516263;
+  background: transparent;
+  font-size: 0.94rem;
+  font-weight: 750;
 }
 
 .text-version-action:hover {
-  border-color: rgba(11, 111, 111, 0.52);
-  background: #cfe7e5;
+  color: var(--accent-strong);
+  border-color: var(--accent);
 }
 
 .image-note {
@@ -582,7 +584,7 @@ h1 {
 .text-dialog-shell {
   height: 100%;
   display: grid;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr;
 }
 
 .text-dialog-header {
@@ -607,41 +609,22 @@ h1 {
   line-height: 1.05;
 }
 
-.icon-button {
-  width: 42px;
-  height: 42px;
+.dialog-close-button {
+  min-width: 92px;
+  min-height: 44px;
+  padding: 0 16px;
   flex: 0 0 auto;
-  border: 1px solid rgba(31, 43, 44, 0.14);
-  border-radius: 50%;
-  color: var(--ink);
-  background: var(--surface-strong);
-  font-size: 1.4rem;
-  line-height: 1;
-}
-
-.reader-tools {
-  display: flex;
-  gap: 8px;
-  padding: 12px clamp(18px, 4vw, 28px);
-  border-bottom: 1px solid var(--line);
-  background: #f8f5ef;
-}
-
-.tool-button {
-  min-width: 54px;
-  min-height: 40px;
-  border: 1px solid rgba(31, 43, 44, 0.14);
+  border: 1px solid rgba(31, 43, 44, 0.22);
   border-radius: var(--radius);
-  color: var(--ink);
-  background: var(--surface-strong);
+  color: var(--surface-strong);
+  background: var(--accent);
   font-weight: 850;
 }
 
 .text-reader {
-  --reader-scale: 1;
   overflow: auto;
   padding: clamp(22px, 5vw, 48px);
-  font-size: calc(1.14rem * var(--reader-scale));
+  font-size: 1.14rem;
   line-height: 1.72;
   user-select: text;
   -webkit-user-select: text;
@@ -649,7 +632,7 @@ h1 {
 
 .text-reader h3 {
   margin: 0 0 22px;
-  font-size: calc(1.55em * var(--reader-scale));
+  font-size: 1.55em;
   line-height: 1.1;
 }
 
