@@ -44,13 +44,13 @@ const copy = {
     no: "Nee",
     stepOneKicker: "Stap 1 - Filter",
     stepOneQuestion: "Bent u huurder van Barnstijn Beheer B.V.?",
-    stepTwoKicker: "Stap 2 - Huurderscommissie",
-    stepTwoQuestion: `Wilt u {hotspot:help:meewerken} aan de opbouw van een {hotspot:committee:huurderscommissie}?`,
-    stepTwoYes: "Graag",
-    stepTwoMaybe: "Alleen als niemand anders wil",
-    stepTwoNo: "Nee",
-    stepThreeKicker: "Stap 3 - Servicekosten",
-    stepThreeQuestion: `Heeft u deze {hotspot:clause:servicekosten-clausule} in uw huurcontract?`,
+    stepTwoKicker: "Stap 2 - Servicekosten",
+    stepTwoQuestion: `Heeft u deze {hotspot:clause:servicekosten-clausule} in uw huurcontract?`,
+    stepThreeKicker: "Stap 3 - Huurderscommissie",
+    stepThreeQuestion: `Wilt u {hotspot:help:meewerken} aan de opbouw van een {hotspot:committee:huurderscommissie}?`,
+    stepThreeYes: "Graag",
+    stepThreeMaybe: "Alleen als niemand anders wil",
+    stepThreeNo: "Nee",
     stepFourKicker: "Stap 4 - Contact en privacy",
     stepFourQuestion: "Waar kunnen we u bereiken?",
     consent: `Ik ga akkoord met de {hotspot:storage:veilige, versleutelde opslag} van mijn gegevens om een huurderscoalitie te vormen.`,
@@ -92,13 +92,13 @@ const copy = {
     no: "No",
     stepOneKicker: "Step 1 - Filter",
     stepOneQuestion: "Are you a tenant of Barnstijn Beheer B.V.?",
-    stepTwoKicker: "Step 2 - Tenant committee",
-    stepTwoQuestion: `Would you {hotspot:help:help build} a {hotspot:committee:tenant committee}?`,
-    stepTwoYes: "Yes, gladly",
-    stepTwoMaybe: "Only if nobody else does",
-    stepTwoNo: "No",
-    stepThreeKicker: "Step 3 - Service costs",
-    stepThreeQuestion: `Do you have this {hotspot:clause:service cost clause} in your rental contract?`,
+    stepTwoKicker: "Step 2 - Service costs",
+    stepTwoQuestion: `Do you have this {hotspot:clause:service cost clause} in your rental contract?`,
+    stepThreeKicker: "Step 3 - Tenant committee",
+    stepThreeQuestion: `Would you {hotspot:help:help build} a {hotspot:committee:tenant committee}?`,
+    stepThreeYes: "Yes, gladly",
+    stepThreeMaybe: "Only if nobody else does",
+    stepThreeNo: "No",
     stepFourKicker: "Step 4 - Contact and GDPR",
     stepFourQuestion: "Where can we reach you?",
     consent: `I agree to the {hotspot:storage:secure, encrypted storage} of my data to form a tenant coalition.`,
@@ -127,31 +127,31 @@ const steps = [
     }
   },
   {
-    key: "committee",
+    key: "serviceClause",
     render() {
       const t = copy[state.lang];
       return questionTemplate({
         kicker: t.stepTwoKicker,
         question: renderHotspots(t.stepTwoQuestion),
+        afterQuestion: `<img class="clause-image" src="servicekosten.png" alt="Servicekosten Clause" data-clause-image><p class="image-note" data-image-note>${escapeHtml(t.imageFallback)}</p>`,
         options: [
-          { label: t.stepTwoYes, value: "gladly" },
-          { label: t.stepTwoMaybe, value: "only_if_needed" },
-          { label: t.stepTwoNo, value: "no" }
+          { label: t.yes, value: "yes" },
+          { label: t.no, value: "no" }
         ]
       });
     }
   },
   {
-    key: "serviceClause",
+    key: "committee",
     render() {
       const t = copy[state.lang];
       return questionTemplate({
         kicker: t.stepThreeKicker,
         question: renderHotspots(t.stepThreeQuestion),
-        afterQuestion: `<img class="clause-image" src="servicekosten.png" alt="Servicekosten Clause" data-clause-image><p class="image-note" data-image-note>${escapeHtml(t.imageFallback)}</p>`,
         options: [
-          { label: t.yes, value: "yes" },
-          { label: t.no, value: "no" }
+          { label: t.stepThreeYes, value: "gladly" },
+          { label: t.stepThreeMaybe, value: "only_if_needed" },
+          { label: t.stepThreeNo, value: "no" }
         ]
       });
     }
