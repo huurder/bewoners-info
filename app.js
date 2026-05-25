@@ -9,7 +9,8 @@ const state = {
   lang: "nl",
   currentStep: 0,
   answers: {},
-  submitting: false
+  submitting: false,
+  readerScale: 1
 };
 
 const copy = {
@@ -34,6 +35,12 @@ const copy = {
     emailLabel: "E-mailadres",
     emailPlaceholder: "naam@example.com",
     imageFallback: "Plaats servicekosten.png naast index.html om de clausule hier te tonen.",
+    textVersionButton: "Beter toegankelijke versie",
+    textVersionKicker: "Beter leesbare versie",
+    textVersionTitle: "Servicekosten",
+    readerSmaller: "Tekst kleiner",
+    readerReset: "Tekstgrootte resetten",
+    readerLarger: "Tekst groter",
     terminatedTitle: "Bedankt voor uw tijd.",
     terminatedBody: "Dit initiatief is bedoeld voor huurders van Barnstijn Beheer B.V.",
     successTitle: "Dank u, uw aanmelding is veilig verzonden.",
@@ -59,6 +66,17 @@ const copy = {
       committee: "Een officiële commissie in de zin van de Wet overleg huurders verhuurder. Dit geeft ons wettelijke rechten tegenover de verhuurder.",
       clause: "Controleer de sectie onder 'Servicekosten' in uw eigen huurcontract om dit te vergelijken.",
       storage: "Verwerkingsverantwoordelijke: P. Beyer, huurder-barnstijn@proton.me. Doel: gemeenschappelijke belangen tegen Barnstijn Beheer B.V. organiseren en vertegenwoordigen. Beveiliging: uw invoer wordt direct in uw browser versleuteld. Niemand behalve de initiatiefnemer kan deze lezen. Intrekking: u kunt op elk moment een e-mail sturen om uw gegevens volledig te laten verwijderen."
+    },
+    serviceText: {
+      title: "Servicekosten",
+      paragraph: "7. Verhuurder zal zorgdragen voor de levering van de volgende zaken en diensten in verband met de bewoning van het gehuurde:",
+      line: "Servicekosten van € 49,-- bestaande uit:",
+      items: [
+        "Onderhoud lift",
+        "Verlichting openbare ruimte",
+        "Schoonmaak openbare ruimte",
+        "Afschrijving stoffering & apparatuur"
+      ]
     }
   },
   en: {
@@ -81,7 +99,13 @@ const copy = {
     submitting: "Encrypting your answers locally...",
     emailLabel: "Email address",
     emailPlaceholder: "name@example.com",
-    imageFallback: "Place servicekosten.png next to index.html to show the clause here.",
+    imageFallback: "Place servicekosten_eng.png next to index.html to show the clause here.",
+    textVersionButton: "Better accessible version",
+    textVersionKicker: "Better accessible version",
+    textVersionTitle: "Service charges",
+    readerSmaller: "Smaller text",
+    readerReset: "Reset text size",
+    readerLarger: "Larger text",
     terminatedTitle: "Thank you for your time.",
     terminatedBody: "This initiative is intended for tenants of Barnstijn Beheer B.V.",
     successTitle: "Thank you, your response was sent securely.",
@@ -107,6 +131,17 @@ const copy = {
       committee: "An official committee under the Dutch Tenant-Landlord Consultation Act. This grants us strong legal rights against the landlord.",
       clause: "Check the section under 'Servicekosten' in your own rental agreement to compare.",
       storage: "Data Controller: P. Beyer, huurder-barnstijn@proton.me. Purpose: To organize and represent common interests against Barnstijn Beheer B.V. Security: Your inputs are encrypted directly in your browser. No one except the initiator can read them. Withdrawal: You can send an email at any time to have your data completely deleted."
+    },
+    serviceText: {
+      title: "Service charges",
+      paragraph: "7. The landlord will arrange the provision of the following supplies and services in connection with the occupation of the rented object:",
+      line: "Service costs of € 49, consisting of:",
+      items: [
+        "Maintenance elevator",
+        "Lighting public space",
+        "Cleaning public space",
+        "Depreciation upholstery & equipment"
+      ]
     }
   }
 };
@@ -133,7 +168,7 @@ const steps = [
       return questionTemplate({
         kicker: t.stepTwoKicker,
         question: renderHotspots(t.stepTwoQuestion),
-        afterQuestion: `<img class="clause-image" src="servicekosten.png" alt="Servicekosten Clause" data-clause-image><p class="image-note" data-image-note>${escapeHtml(t.imageFallback)}</p>`,
+        afterQuestion: renderClauseReference(),
         options: [
           { label: t.yes, value: "yes" },
           { label: t.no, value: "no" }
@@ -192,6 +227,10 @@ let progressFill;
 let tooltipLayer;
 let tooltipText;
 let tooltipCard;
+let textDialog;
+let textDialogKicker;
+let textDialogTitle;
+let textReader;
 let activeTooltipTrigger = null;
 
 if (document.readyState === "loading") {
@@ -208,8 +247,12 @@ function initApp() {
   tooltipLayer = document.querySelector("[data-tooltip-layer]");
   tooltipText = document.querySelector("[data-tooltip-text]");
   tooltipCard = document.querySelector(".tooltip-card");
+  textDialog = document.querySelector("[data-text-dialog]");
+  textDialogKicker = document.querySelector("[data-text-dialog-kicker]");
+  textDialogTitle = document.querySelector("[data-text-dialog-title]");
+  textReader = document.querySelector("[data-text-reader]");
 
-  if (!questionContent || !progressLabel || !progressFill || !tooltipLayer || !tooltipText || !tooltipCard) {
+  if (!questionContent || !progressLabel || !progressFill || !tooltipLayer || !tooltipText || !tooltipCard || !textDialog || !textDialogKicker || !textDialogTitle || !textReader) {
     console.error("The tenant initiative app could not find its required HTML elements.");
     return;
   }
@@ -221,6 +264,7 @@ function initApp() {
     const back = event.target.closest("[data-action='back']");
     const hotspot = event.target.closest("[data-hotspot]");
     const closeTooltip = event.target.closest("[data-tooltip-close]");
+    const textAction = event.target.closest("[data-action='open-text'], [data-action='close-text'], [data-action='reader-smaller'], [data-action='reader-reset'], [data-action='reader-larger']");
 
     if (start) {
       showView("wizard");
@@ -237,6 +281,10 @@ function initApp() {
 
     if (back) {
       goBack();
+    }
+
+    if (textAction) {
+      handleTextAction(textAction.dataset.action);
     }
 
     if (hotspot) {
@@ -355,6 +403,22 @@ function questionTemplate({ kicker, question, options, afterQuestion = "" }) {
   `;
 }
 
+function renderClauseReference() {
+  const t = copy[state.lang];
+  const imageSrc = state.lang === "en" ? "servicekosten_eng.png" : "servicekosten.png";
+  return `
+    <figure class="clause-reference">
+      <img class="clause-image" src="${imageSrc}" alt="${escapeAttribute(t.textVersionTitle)}" data-clause-image>
+      <figcaption>
+        <button class="text-version-action" type="button" data-action="open-text">
+          ${escapeHtml(t.textVersionButton)}
+        </button>
+      </figcaption>
+    </figure>
+    <p class="image-note" data-image-note>${escapeHtml(t.imageFallback)}</p>
+  `;
+}
+
 function backButton() {
   return `<button class="secondary-action" type="button" data-action="back">${escapeHtml(copy[state.lang].back)}</button>`;
 }
@@ -401,6 +465,58 @@ function renderSuccess() {
       <p>${escapeHtml(t.successBody)}</p>
     </div>
   `;
+}
+
+function handleTextAction(action) {
+  if (action === "open-text") {
+    openTextVersion();
+    return;
+  }
+
+  if (action === "close-text") {
+    textDialog.close();
+    return;
+  }
+
+  if (action === "reader-smaller") {
+    state.readerScale = Math.max(0.85, state.readerScale - 0.1);
+  }
+
+  if (action === "reader-reset") {
+    state.readerScale = 1;
+  }
+
+  if (action === "reader-larger") {
+    state.readerScale = Math.min(1.55, state.readerScale + 0.1);
+  }
+
+  applyReaderScale();
+}
+
+function openTextVersion() {
+  const t = copy[state.lang];
+  textDialogKicker.textContent = t.textVersionKicker;
+  textDialogTitle.textContent = t.textVersionTitle;
+  textReader.innerHTML = renderServiceText(t.serviceText);
+  textDialog.querySelector("[data-action='reader-smaller']").setAttribute("aria-label", t.readerSmaller);
+  textDialog.querySelector("[data-action='reader-reset']").setAttribute("aria-label", t.readerReset);
+  textDialog.querySelector("[data-action='reader-larger']").setAttribute("aria-label", t.readerLarger);
+  applyReaderScale();
+  textDialog.showModal();
+}
+
+function renderServiceText(text) {
+  const items = text.items.map(item => `<li>${escapeHtml(item)}</li>`).join("");
+  return `
+    <h3>${escapeHtml(text.title)}</h3>
+    <p>${escapeHtml(text.paragraph)}</p>
+    <p>- ${escapeHtml(text.line)}</p>
+    <ul>${items}</ul>
+  `;
+}
+
+function applyReaderScale() {
+  textReader.style.setProperty("--reader-scale", state.readerScale.toFixed(2));
 }
 
 function renderHotspots(text) {

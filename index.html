@@ -91,5 +91,25 @@
         <p data-tooltip-text></p>
       </div>
     </div>
+
+    <dialog class="text-dialog" data-text-dialog aria-labelledby="text-dialog-title">
+      <div class="text-dialog-shell">
+        <header class="text-dialog-header">
+          <div>
+            <p class="text-dialog-kicker" data-text-dialog-kicker>Tekstversie</p>
+            <h2 id="text-dialog-title" data-text-dialog-title>Servicekosten</h2>
+          </div>
+          <button class="icon-button" type="button" data-action="close-text" aria-label="Close text version">×</button>
+        </header>
+
+        <div class="reader-tools" aria-label="Reading controls">
+          <button class="tool-button" type="button" data-action="reader-smaller">A-</button>
+          <button class="tool-button" type="button" data-action="reader-reset">100%</button>
+          <button class="tool-button" type="button" data-action="reader-larger">A+</button>
+        </div>
+
+        <article class="text-reader" data-text-reader></article>
+      </div>
+    </dialog>
   </body>
 </html>
