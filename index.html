@@ -42,25 +42,28 @@
               </div>
             </div>
 
-            <div class="trust-panel" aria-label="Security and purpose">
-              <div class="trust-item">
+            <div class="trust-panel" aria-label="Information articles">
+              <button class="trust-item" type="button" data-article="serviceCosts">
                 <div>
                   <h2 data-i18n="trustOneTitle">Lokaal versleuteld</h2>
                   <p data-i18n="trustOneBody">Uw antwoorden worden in de browser versleuteld voordat ze worden verzonden.</p>
+                  <span class="trust-readmore" data-i18n="articleReadMore">Lees meer</span>
                 </div>
-              </div>
-              <div class="trust-item">
+              </button>
+              <button class="trust-item" type="button" data-article="placeholderTwo">
                 <div>
                   <h2 data-i18n="trustTwoTitle">Heldere belangen</h2>
                   <p data-i18n="trustTwoBody">Het doel is transparantie, lagere kosten en gezamenlijke vertegenwoordiging.</p>
+                  <span class="trust-readmore" data-i18n="articleReadMore">Lees meer</span>
                 </div>
-              </div>
-              <div class="trust-item">
+              </button>
+              <button class="trust-item" type="button" data-article="placeholderThree">
                 <div>
                   <h2 data-i18n="trustThreeTitle">Minimale gegevens</h2>
                   <p data-i18n="trustThreeBody">Alleen de antwoorden en uw e-mailadres worden verwerkt.</p>
+                  <span class="trust-readmore" data-i18n="articleReadMore">Lees meer</span>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         </section>
@@ -103,6 +106,17 @@
         </header>
 
         <article class="text-reader" data-text-reader></article>
+      </div>
+    </dialog>
+
+    <dialog class="article-dialog" data-article-dialog aria-labelledby="article-dialog-title">
+      <div class="article-dialog-shell">
+        <header class="article-dialog-header">
+          <p class="article-dialog-kicker" data-article-kicker>Info</p>
+          <h2 id="article-dialog-title" data-article-title></h2>
+          <button class="dialog-close-button" type="button" data-action="close-article" aria-label="Close article">Close</button>
+        </header>
+        <div class="article-dialog-body" data-article-body></div>
       </div>
     </dialog>
   </body>

@@ -30,12 +30,15 @@ const copy = {
     landingHeadline: "Huurders van Barnstijn Beheer B.V. – Laten we samen sterk staan.",
     landingBody: "Veel huurders hebben clausules in hun contract waardoor de verhuurder mogelijk onterecht kosten aan ons doorberekent (zoals afschrijving van meubilair via de servicekosten). Door ons te verenigen kunnen we meer transparantie eisen, kosten verlagen en als één blok onderhandelen. Dit initiatief is 100% veilig en uw gegevens worden lokaal versleuteld.",
     ctaStart: "Start / Doe mee",
-    trustOneTitle: "Lokaal versleuteld",
-    trustOneBody: "Uw antwoorden worden in de browser versleuteld voordat ze worden verzonden.",
+    trustOneTitle: "Controleer uw servicekosten",
+    trustOneBody: "Uw verhuurder moet laten zien waar uw servicekosten aan zijn besteed.",
     trustTwoTitle: "Heldere belangen",
     trustTwoBody: "Het doel is transparantie, lagere kosten en gezamenlijke vertegenwoordiging.",
     trustThreeTitle: "Minimale gegevens",
     trustThreeBody: "Alleen de antwoorden en uw e-mailadres worden verwerkt.",
+    articleReadMore: "Lees meer",
+    articleKicker: "Informatie voor huurders",
+    articleClose: "Sluiten",
     wizardTitle: "Aanmelden",
     progress: step => `Stap ${step} van 4`,
     back: "Terug",
@@ -90,6 +93,34 @@ const copy = {
         "Schoonmaak openbare ruimte",
         "Afschrijving stoffering & apparatuur"
       ]
+    },
+    articles: {
+      serviceCosts: {
+        kicker: "Informatie voor huurders",
+        title: "Controleer uw servicekosten",
+        paragraphs: [
+          "Servicekosten zijn geen bedrag dat u zonder uitleg hoeft te accepteren. Volgens Nederlands huurrecht moet uw verhuurder kunnen laten zien waaraan uw geld daadwerkelijk is besteed.",
+          "Daarbij mogen alleen kosten worden doorberekend voor zaken en diensten die in uw huurovereenkomst zijn genoemd. U heeft recht op een jaarlijkse afrekening over de servicekosten. Die afrekening moet uiterlijk op 1 juli na afloop van het betreffende jaar worden verstrekt.",
+          "In veel gevallen kunt u nog om overzichten van eerdere jaren vragen. Een termijn van vijf jaar is vaak het praktische uitgangspunt.",
+          "Verwacht alleen niet dat iedere verhuurder snel en volledig meewerkt. Juist daarom is het belangrijk dat huurders elkaar vinden en samen optreden."
+        ],
+        linkText: "Bekijk de voorbeeldbrief van het Juridisch Loket",
+        linkUrl: "https://www.juridischloket.nl/voorbeeldbrieven/voorbeeldbrief-verzoek-om-servicekostenoverzicht/"
+      },
+      placeholderTwo: {
+        kicker: "Informatie voor huurders",
+        title: "Heldere belangen",
+        paragraphs: [
+          "Deze informatie wordt nog uitgewerkt."
+        ]
+      },
+      placeholderThree: {
+        kicker: "Informatie voor huurders",
+        title: "Minimale gegevens",
+        paragraphs: [
+          "Deze informatie wordt nog uitgewerkt."
+        ]
+      }
     }
   },
   en: {
@@ -98,12 +129,15 @@ const copy = {
     landingHeadline: "Tenants of Barnstijn Beheer B.V. – Let's stand together.",
     landingBody: "Many tenants have clauses in their contracts that might unlawfully shift landlord costs onto us (like depreciation of furniture via service costs). By uniting, we can demand transparency, lower costs, and negotiate as a united front. This initiative is 100% secure and your data is encrypted locally.",
     ctaStart: "Start / Join us",
-    trustOneTitle: "Encrypted locally",
-    trustOneBody: "Your answers are encrypted in your browser before they are sent.",
+    trustOneTitle: "Check your service costs",
+    trustOneBody: "Your landlord must provide a breakdown of how your service costs were spent.",
     trustTwoTitle: "Clear interests",
     trustTwoBody: "The purpose is transparency, lower costs, and shared representation.",
     trustThreeTitle: "Minimal data",
     trustThreeBody: "Only your answers and email address are processed.",
+    articleReadMore: "Read more",
+    articleKicker: "Tenant information",
+    articleClose: "Close",
     wizardTitle: "Join",
     progress: step => `Step ${step} of 4`,
     back: "Back",
@@ -158,6 +192,34 @@ const copy = {
         "Cleaning public space",
         "Depreciation upholstery & equipment"
       ]
+    },
+    articles: {
+      serviceCosts: {
+        kicker: "Tenant information",
+        title: "Check your service costs",
+        paragraphs: [
+          "Service costs are not a charge you simply have to accept without explanation. Under Dutch rental law, your landlord must be able to show how your money was actually spent.",
+          "Only costs for services and supplies listed in your rental agreement may be charged. You are entitled to an annual service-cost statement, and your landlord must provide it by July 1 of the following year.",
+          "In many cases, you can still request statements for previous years. A five-year period is often the practical starting point.",
+          "Do not assume your landlord will cooperate quickly or fully. That is exactly why tenants need to connect and act together."
+        ],
+        linkText: "Open the Juridisch Loket example letter",
+        linkUrl: "https://www.juridischloket.nl/voorbeeldbrieven/voorbeeldbrief-verzoek-om-servicekostenoverzicht/"
+      },
+      placeholderTwo: {
+        kicker: "Tenant information",
+        title: "Clear interests",
+        paragraphs: [
+          "This information will be expanded later."
+        ]
+      },
+      placeholderThree: {
+        kicker: "Tenant information",
+        title: "Minimal data",
+        paragraphs: [
+          "This information will be expanded later."
+        ]
+      }
     }
   }
 };
@@ -248,6 +310,10 @@ let textDialog;
 let textDialogKicker;
 let textDialogTitle;
 let textReader;
+let articleDialog;
+let articleKicker;
+let articleTitle;
+let articleBody;
 let activeTooltipTrigger = null;
 
 if (document.readyState === "loading") {
@@ -268,8 +334,12 @@ function initApp() {
   textDialogKicker = document.querySelector("[data-text-dialog-kicker]");
   textDialogTitle = document.querySelector("[data-text-dialog-title]");
   textReader = document.querySelector("[data-text-reader]");
+  articleDialog = document.querySelector("[data-article-dialog]");
+  articleKicker = document.querySelector("[data-article-kicker]");
+  articleTitle = document.querySelector("[data-article-title]");
+  articleBody = document.querySelector("[data-article-body]");
 
-  if (!questionContent || !progressLabel || !progressFill || !tooltipLayer || !tooltipText || !tooltipCard || !textDialog || !textDialogKicker || !textDialogTitle || !textReader) {
+  if (!questionContent || !progressLabel || !progressFill || !tooltipLayer || !tooltipText || !tooltipCard || !textDialog || !textDialogKicker || !textDialogTitle || !textReader || !articleDialog || !articleKicker || !articleTitle || !articleBody) {
     console.error("The tenant initiative app could not find its required HTML elements.");
     return;
   }
@@ -282,6 +352,8 @@ function initApp() {
     const hotspot = event.target.closest("[data-hotspot]");
     const closeTooltip = event.target.closest("[data-tooltip-close]");
     const textAction = event.target.closest("[data-action='open-text'], [data-action='close-text']");
+    const articleTrigger = event.target.closest("[data-article]");
+    const articleClose = event.target.closest("[data-action='close-article']");
 
     if (start) {
       showView("wizard");
@@ -302,6 +374,14 @@ function initApp() {
 
     if (textAction) {
       handleTextAction(textAction.dataset.action);
+    }
+
+    if (articleTrigger) {
+      openArticle(articleTrigger.dataset.article);
+    }
+
+    if (articleClose) {
+      articleDialog.close();
     }
 
     if (hotspot) {
@@ -514,6 +594,30 @@ function renderServiceText(text) {
     <p>- ${escapeHtml(text.line)}</p>
     <ul>${items}</ul>
   `;
+}
+
+function openArticle(articleId) {
+  const article = copy[state.lang].articles[articleId];
+  if (!article) return;
+
+  articleKicker.textContent = article.kicker || copy[state.lang].articleKicker;
+  articleTitle.textContent = article.title;
+  articleBody.innerHTML = renderArticle(article);
+
+  const closeButton = articleDialog.querySelector("[data-action='close-article']");
+  closeButton.textContent = copy[state.lang].articleClose;
+  closeButton.setAttribute("aria-label", copy[state.lang].articleClose);
+  articleDialog.showModal();
+}
+
+function renderArticle(article) {
+  const paragraphs = article.paragraphs
+    .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+    .join("");
+  const link = article.linkUrl
+    ? `<p><a class="article-link" href="${escapeAttribute(article.linkUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.linkText)}</a></p>`
+    : "";
+  return `${paragraphs}${link}`;
 }
 
 function renderHotspots(text) {
