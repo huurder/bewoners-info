@@ -747,7 +747,6 @@ async function submitForm(form) {
     formData.set("access_key", WEB3FORMS_ACCESS_KEY);
     formData.set("subject", "Encrypted Barnstijn tenant initiative response");
     formData.set("from_name", "Barnstijn tenant initiative");
-    formData.set("email", email);
     formData.set("message", encryptedPayload);
 
     const response = await fetch(FORM_ENDPOINT, {
