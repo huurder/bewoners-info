@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>bewoners-info.nl - Tenant initiative flyer</title>
+    <style>
+      :root {
+        --ink: #1f2b2c;
+        --muted: #657273;
+        --line: #ded8cf;
+        --accent: #0b6f6f;
+        --accent-strong: #064f4f;
+        --accent-soft: #e2f0ef;
+        --paper: #fffdf9;
+        --warm: #f7f3ed;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      html,
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--warm);
+      }
+
+      body {
+        width: 210mm;
+        min-height: 297mm;
+      }
+
+      .page {
+        width: 210mm;
+        height: 297mm;
+        overflow: hidden;
+        padding: 14mm 16mm;
+        background:
+          linear-gradient(135deg, rgba(11, 111, 111, 0.08), transparent 96mm),
+          linear-gradient(315deg, rgba(200, 138, 45, 0.10), transparent 84mm),
+          var(--paper);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12mm;
+        padding-bottom: 8mm;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 4mm;
+      }
+
+      .brand-mark {
+        width: 13mm;
+        height: 13mm;
+        display: grid;
+        place-items: center;
+        border-radius: 2mm;
+        color: white;
+        background: var(--accent);
+        font-weight: 900;
+        font-size: 16pt;
+      }
+
+      .brand-title {
+        display: block;
+        font-size: 17pt;
+        line-height: 1.1;
+        font-weight: 900;
+      }
+
+      .brand-subtitle {
+        display: block;
+        margin-top: 1mm;
+        color: var(--muted);
+        font-size: 9.5pt;
+        font-weight: 650;
+      }
+
+      .domain-pill {
+        padding: 2.5mm 4mm;
+        border: 1px solid rgba(11, 111, 111, 0.22);
+        border-radius: 99mm;
+        color: var(--accent-strong);
+        background: var(--accent-soft);
+        font-size: 10pt;
+        font-weight: 850;
+        white-space: nowrap;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 45mm;
+        gap: 10mm;
+        align-items: start;
+        padding: 10mm 0 8mm;
+      }
+
+      .eyebrow {
+        margin: 0 0 3mm;
+        color: var(--accent-strong);
+        font-size: 9.5pt;
+        font-weight: 900;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 29pt;
+        line-height: 1.03;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        margin: 5mm 0 0;
+        color: #3f4d4d;
+        font-size: 12.2pt;
+        line-height: 1.55;
+      }
+
+      .qr-card {
+        padding: 4mm;
+        border: 1px solid var(--line);
+        border-radius: 2mm;
+        background: white;
+        text-align: center;
+      }
+
+      .qr-card img {
+        width: 37mm;
+        height: 37mm;
+        display: block;
+        margin: 0 auto 2mm;
+      }
+
+      .qr-card strong {
+        display: block;
+        color: var(--accent-strong);
+        font-size: 10pt;
+      }
+
+      .letter {
+        padding: 7mm;
+        border: 1px solid rgba(31, 43, 44, 0.12);
+        border-radius: 2mm;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .letter p {
+        margin: 0 0 4mm;
+        font-size: 10.7pt;
+        line-height: 1.55;
+      }
+
+      .letter p:last-child {
+        margin-bottom: 0;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4mm;
+        margin-top: 6mm;
+      }
+
+      .info-card {
+        min-height: 35mm;
+        padding: 4.5mm;
+        border: 1px solid rgba(31, 43, 44, 0.12);
+        border-radius: 2mm;
+        background: white;
+      }
+
+      .info-card h2 {
+        margin: 0 0 2mm;
+        color: var(--accent-strong);
+        font-size: 11.2pt;
+        line-height: 1.2;
+      }
+
+      .info-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 9.1pt;
+        line-height: 1.45;
+      }
+
+      .footer {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8mm;
+        align-items: center;
+        margin-top: 7mm;
+        padding-top: 5mm;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 9.4pt;
+        line-height: 1.45;
+      }
+
+      .cta {
+        padding: 3.3mm 5mm;
+        border-radius: 2mm;
+        color: white;
+        background: var(--accent);
+        font-size: 11pt;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">B</div>
+          <div>
+            <span class="brand-title">bewoners-info.nl</span>
+            <span class="brand-subtitle">Barnstijn tenants · Tenant initiative</span>
+          </div>
+        </div>
+        <div class="domain-pill">Scan or visit bewoners-info.nl</div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Dear neighbour,</p>
+          <h1>Let’s make our voice heard together.</h1>
+          <p class="lead">Service costs, rent increases and repairs are easier to question when tenants are connected. This initiative helps Barnstijn Beheer tenants find each other and organize constructively.</p>
+        </div>
+        <aside class="qr-card" aria-label="QR code to bewoners-info.nl">
+          <img src="qr-code.svg" alt="QR code for https://bewoners-info.nl/">
+          <strong>bewoners-info.nl</strong>
+        </aside>
+      </section>
+
+      <section class="letter">
+        <p>You are receiving this letter because you may be a tenant of Barnstijn Beheer B.V. Many of us deal with the same questions: are service costs properly explained, are rent increases reasonable, and are needed repairs handled in time?</p>
+        <p>Individually, it is easy to feel small. Together, tenants can ask better questions, compare information and work toward a formal tenant committee.</p>
+        <p>Please visit <strong>bewoners-info.nl</strong> and fill in the short survey. Your answers help us understand how many tenants are willing to stay informed, compare service-cost information, or support a tenant committee.</p>
+      </section>
+
+      <section class="info-grid" aria-label="Why join">
+        <article class="info-card">
+          <h2>Check service costs</h2>
+          <p>Landlords must provide a clear annual breakdown of service costs. Comparing information helps tenants spot patterns.</p>
+        </article>
+        <article class="info-card">
+          <h2>Check the rent</h2>
+          <p>The Huurcommissie rent-price check can help tenants understand whether a rent level is reasonable.</p>
+        </article>
+        <article class="info-card">
+          <h2>Build a committee</h2>
+          <p>A tenant committee gives tenants a stronger formal position in conversations with the landlord.</p>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <p>This is a tenant-led initiative to help Barnstijn Beheer tenants find each other, compare concerns and decide what we can do together.</p>
+        <div class="cta">Join at bewoners-info.nl</div>
+      </footer>
+    </main>
+  </body>
+</html>
