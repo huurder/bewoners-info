@@ -34,8 +34,8 @@ const copy = {
     trustOneBody: "Uw verhuurder moet laten zien waar uw servicekosten aan zijn besteed.",
     trustTwoTitle: "Betaalt u te veel huur?",
     trustTwoBody: "Controleer online of uw huur redelijk is volgens Nederlandse normen.",
-    trustThreeTitle: "Minimale gegevens",
-    trustThreeBody: "Alleen de antwoorden en uw e-mailadres worden verwerkt.",
+    trustThreeTitle: "Bouw mee aan een huurderscommissie",
+    trustThreeBody: "Sta samen sterker voor onze rechten als huurders.",
     articleReadMore: "Lees meer",
     articleKicker: "Informatie voor huurders",
     articleClose: "Sluiten",
@@ -120,9 +120,12 @@ const copy = {
       },
       placeholderThree: {
         kicker: "Informatie voor huurders",
-        title: "Minimale gegevens",
+        title: "Bouw mee aan een huurderscommissie",
         paragraphs: [
-          "Deze informatie wordt nog uitgewerkt."
+          "Verhuurders met 25 of meer huurders moeten een huurderscommissie ondersteunen. Zo'n commissie heeft wettelijke rechten in het overleg met de verhuurder.",
+          "Een huurderscommissie moet bijvoorbeeld worden gehoord bij huurverhogingen. Dat voorkomt een verhoging niet automatisch, maar het kan wel ruimte geven om bezwaar te maken, informatie op te vragen of de verhoging te beperken.",
+          "Daarnaast moet de verhuurder een huurderscommissie een overzicht van alle huurders verstrekken. Dat zou onze positie rond de servicekosten sterk verbeteren, omdat we huurders dan veel gerichter kunnen bereiken en samen kunnen optreden.",
+          "Geef daarom in de vragenlijst aan of u openstaat voor ondersteuning van de commissie, ook als u denkt dat u niet de ideale kandidaat bent. We hebben drie huurderspartijen nodig die officieel een bestuursrol willen vervullen."
         ]
       }
     }
@@ -137,8 +140,8 @@ const copy = {
     trustOneBody: "Your landlord must provide a breakdown of how your service costs were spent.",
     trustTwoTitle: "Are you paying too much rent?",
     trustTwoBody: "Check whether your rent is reasonable by Dutch local standards.",
-    trustThreeTitle: "Minimal data",
-    trustThreeBody: "Only your answers and email address are processed.",
+    trustThreeTitle: "Let’s build a tenant committee",
+    trustThreeBody: "Stand together for our rights as tenants.",
     articleReadMore: "Read more",
     articleKicker: "Tenant information",
     articleClose: "Close",
@@ -223,9 +226,12 @@ const copy = {
       },
       placeholderThree: {
         kicker: "Tenant information",
-        title: "Minimal data",
+        title: "Let’s build a tenant committee",
         paragraphs: [
-          "This information will be expanded later."
+          "Landlords with 25 or more tenants are required to support a tenant committee. Such a committee has legal rights in discussions with the landlord.",
+          "For example, the committee must be consulted about every rent increase. That does not automatically stop an increase, but it can create room to object, request information, or at least reduce the increase.",
+          "The landlord must also provide the tenant committee with a list of all tenants. That would dramatically improve our position on the service-cost issue, because we could reach other tenants directly and organize more effectively.",
+          "That is why it matters to say in the survey whether you are open to supporting the committee, even if you do not think you are the perfect candidate. We need three tenant parties who are willing to officially hold a board position."
         ]
       }
     }
