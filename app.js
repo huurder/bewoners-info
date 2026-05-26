@@ -57,6 +57,7 @@ const copy = {
     openPgpError: "OpenPGP is niet geladen. Controleer uw internetverbinding of probeer het later opnieuw.",
     encryptionError: "Versleutelen is niet gelukt. Controleer of de PGP-sleutel geschikt is voor encryptie.",
     submitError: "Verzenden is niet gelukt. Controleer de configuratie of probeer het later opnieuw.",
+    submitDetailPrefix: "Technische details:",
     yes: "Ja",
     no: "Nee",
     stepOneKicker: "Stap 1 - Filter",
@@ -124,6 +125,7 @@ const copy = {
     openPgpError: "OpenPGP did not load. Check your internet connection or try again later.",
     encryptionError: "Encryption failed. Check whether the PGP key is suitable for encryption.",
     submitError: "Submission failed. Check the configuration or try again later.",
+    submitDetailPrefix: "Technical details:",
     yes: "Yes",
     no: "No",
     stepOneKicker: "Step 1 - Filter",
@@ -606,10 +608,16 @@ async function submitForm(form) {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: formData
+    }).catch(error => {
+      throwSubmitError(error.message || "Network request failed");
     });
 
-    if (!response.ok) {
-      throw new Error("SUBMIT_FAILED");
+    const responseText = await response.text();
+    const responseData = parseJson(responseText);
+
+    if (!response.ok || responseData?.success === false) {
+      const detail = responseData?.message || responseText || `HTTP ${response.status}`;
+      throwSubmitError(`HTTP ${response.status}: ${detail}`);
     }
 
     status.className = "status-message success";
@@ -622,6 +630,8 @@ async function submitForm(form) {
       status.textContent = t.openPgpError;
     } else if (error.message === "ENCRYPTION_FAILED") {
       status.textContent = t.encryptionError;
+    } else if (error.message === "SUBMIT_FAILED" && error.detail) {
+      status.textContent = `${t.submitError} ${t.submitDetailPrefix} ${error.detail}`;
     } else {
       status.textContent = t.submitError;
     }
@@ -629,6 +639,21 @@ async function submitForm(form) {
   } finally {
     state.submitting = false;
   }
+}
+
+function parseJson(text) {
+  if (!text) return null;
+  try {
+    return JSON.parse(text);
+  } catch {
+    return null;
+  }
+}
+
+function throwSubmitError(detail) {
+  const error = new Error("SUBMIT_FAILED");
+  error.detail = detail;
+  throw error;
 }
 
 async function encryptAnswers(payload) {
