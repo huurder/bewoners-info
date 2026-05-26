@@ -32,8 +32,8 @@ const copy = {
     ctaStart: "Start / Doe mee",
     trustOneTitle: "Controleer uw servicekosten",
     trustOneBody: "Uw verhuurder moet laten zien waar uw servicekosten aan zijn besteed.",
-    trustTwoTitle: "Heldere belangen",
-    trustTwoBody: "Het doel is transparantie, lagere kosten en gezamenlijke vertegenwoordiging.",
+    trustTwoTitle: "Betaalt u te veel huur?",
+    trustTwoBody: "Controleer online of uw huur redelijk is volgens Nederlandse normen.",
     trustThreeTitle: "Minimale gegevens",
     trustThreeBody: "Alleen de antwoorden en uw e-mailadres worden verwerkt.",
     articleReadMore: "Lees meer",
@@ -109,10 +109,14 @@ const copy = {
       },
       placeholderTwo: {
         kicker: "Informatie voor huurders",
-        title: "Heldere belangen",
+        title: "Betaalt u te veel huur?",
         paragraphs: [
-          "Deze informatie wordt nog uitgewerkt."
-        ]
+          "Ook als uw woning in de vrije sector valt, kunt u controleren of de huurprijs redelijk is. De Huurcommissie biedt daarvoor een online huurprijscheck voor zelfstandige woonruimte.",
+          "Als uit die check blijkt dat uw huur mogelijk te hoog is, kan de Huurcommissie in sommige situaties helpen. Maar het staat sterker wanneer huurders zich samen organiseren en patronen zichtbaar maken.",
+          "Vul daarom de vragenlijst in en geef aan dat u de opbouw van een huurderscommissie steunt. Zo kunnen we samen beoordelen waar actie nodig is."
+        ],
+        linkText: "Doe de huurprijscheck van de Huurcommissie",
+        linkUrl: "https://huurprijscheck.huurcommissie.nl/zelfstandige-woonruimte/binnenruimtes"
       },
       placeholderThree: {
         kicker: "Informatie voor huurders",
@@ -131,8 +135,8 @@ const copy = {
     ctaStart: "Start / Join us",
     trustOneTitle: "Check your service costs",
     trustOneBody: "Your landlord must provide a breakdown of how your service costs were spent.",
-    trustTwoTitle: "Clear interests",
-    trustTwoBody: "The purpose is transparency, lower costs, and shared representation.",
+    trustTwoTitle: "Are you paying too much rent?",
+    trustTwoBody: "Check whether your rent is reasonable by Dutch local standards.",
     trustThreeTitle: "Minimal data",
     trustThreeBody: "Only your answers and email address are processed.",
     articleReadMore: "Read more",
@@ -208,10 +212,14 @@ const copy = {
       },
       placeholderTwo: {
         kicker: "Tenant information",
-        title: "Clear interests",
+        title: "Are you paying too much rent?",
         paragraphs: [
-          "This information will be expanded later."
-        ]
+          "Even if your apartment is rented in the free-market sector, you can still check whether the rent is reasonable. The Dutch Rent Tribunal provides an online rent-price check for independent living spaces.",
+          "If the result suggests that your rent may be too high, huurcommissie.nl may be able to help in some situations. But tenants are stronger when they organize together and identify shared patterns.",
+          "Complete the survey and indicate that you support building a tenant committee. That gives us a stronger basis to decide what action is needed."
+        ],
+        linkText: "Open the Huurcommissie rent-price check",
+        linkUrl: "https://huurprijscheck.huurcommissie.nl/zelfstandige-woonruimte/binnenruimtes"
       },
       placeholderThree: {
         kicker: "Tenant information",
