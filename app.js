@@ -749,7 +749,6 @@ async function submitForm(form) {
     formData.set("from_name", "Barnstijn tenant initiative");
     formData.set("email", email);
     formData.set("message", encryptedPayload);
-    formData.set("encrypted_payload", encryptedPayload);
 
     const response = await fetch(FORM_ENDPOINT, {
       method: "POST",
