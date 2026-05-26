@@ -592,16 +592,19 @@ async function submitForm(form) {
       answers: state.answers
     });
 
-    const formData = new FormData();
-    formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-    formData.append("subject", "Encrypted Barnstijn tenant initiative response");
-    formData.append("from_name", "Barnstijn tenant initiative");
-    formData.append("email", email);
-    formData.append("message", encryptedPayload);
-    formData.append("encrypted_payload", encryptedPayload);
+    const formData = new URLSearchParams();
+    formData.set("access_key", WEB3FORMS_ACCESS_KEY);
+    formData.set("subject", "Encrypted Barnstijn tenant initiative response");
+    formData.set("from_name", "Barnstijn tenant initiative");
+    formData.set("email", email);
+    formData.set("message", encryptedPayload);
+    formData.set("encrypted_payload", encryptedPayload);
 
     const response = await fetch(FORM_ENDPOINT, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       body: formData
     });
 
