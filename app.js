@@ -54,6 +54,8 @@ const copy = {
     successTitle: "Dank u, uw aanmelding is veilig verzonden.",
     successBody: "Uw versleutelde antwoorden zijn ontvangen. U krijgt alleen bericht wanneer er relevante vervolgstappen zijn voor de huurderscoalitie.",
     configError: "De PGP public key en Web3Forms access key moeten nog worden ingevuld voordat inzenden werkt.",
+    openPgpError: "OpenPGP is niet geladen. Controleer uw internetverbinding of probeer het later opnieuw.",
+    encryptionError: "Versleutelen is niet gelukt. Controleer of de PGP-sleutel geschikt is voor encryptie.",
     submitError: "Verzenden is niet gelukt. Controleer de configuratie of probeer het later opnieuw.",
     yes: "Ja",
     no: "Nee",
@@ -119,6 +121,8 @@ const copy = {
     successTitle: "Thank you, your response was sent securely.",
     successBody: "Your encrypted answers have been received. You will only be contacted when there are relevant next steps for the tenant coalition.",
     configError: "The PGP public key and Web3Forms access key still need to be added before submissions work.",
+    openPgpError: "OpenPGP did not load. Check your internet connection or try again later.",
+    encryptionError: "Encryption failed. Check whether the PGP key is suitable for encryption.",
     submitError: "Submission failed. Check the configuration or try again later.",
     yes: "Yes",
     no: "No",
@@ -578,6 +582,10 @@ async function submitForm(form) {
       throw new Error("CONFIGURATION_REQUIRED");
     }
 
+    if (typeof openpgp === "undefined") {
+      throw new Error("OPENPGP_UNAVAILABLE");
+    }
+
     const encryptedPayload = await encryptAnswers({
       submittedAt: new Date().toISOString(),
       language: state.lang,
@@ -605,7 +613,15 @@ async function submitForm(form) {
     renderSuccess();
   } catch (error) {
     status.className = "status-message error";
-    status.textContent = error.message === "CONFIGURATION_REQUIRED" ? t.configError : t.submitError;
+    if (error.message === "CONFIGURATION_REQUIRED") {
+      status.textContent = t.configError;
+    } else if (error.message === "OPENPGP_UNAVAILABLE") {
+      status.textContent = t.openPgpError;
+    } else if (error.message === "ENCRYPTION_FAILED") {
+      status.textContent = t.encryptionError;
+    } else {
+      status.textContent = t.submitError;
+    }
     submit.disabled = !form.elements.consent.checked;
   } finally {
     state.submitting = false;
@@ -613,9 +629,14 @@ async function submitForm(form) {
 }
 
 async function encryptAnswers(payload) {
-  const publicKey = await openpgp.readKey({ armoredKey: PUBLIC_KEY });
-  const message = await openpgp.createMessage({ text: JSON.stringify(payload, null, 2) });
-  return openpgp.encrypt({ message, encryptionKeys: publicKey });
+  try {
+    const publicKey = await openpgp.readKey({ armoredKey: PUBLIC_KEY });
+    const message = await openpgp.createMessage({ text: JSON.stringify(payload, null, 2) });
+    return openpgp.encrypt({ message, encryptionKeys: publicKey });
+  } catch (error) {
+    console.error("OpenPGP encryption failed", error);
+    throw new Error("ENCRYPTION_FAILED");
+  }
 }
 
 function escapeHtml(value) {
