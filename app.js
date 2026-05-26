@@ -20,7 +20,8 @@ const state = {
   lang: "nl",
   currentStep: 0,
   answers: {},
-  submitting: false
+  submitting: false,
+  wizardMode: "editing"
 };
 
 const copy = {
@@ -386,6 +387,7 @@ function initApp() {
 
   document.addEventListener("click", event => {
     const start = event.target.closest("[data-action='start']");
+    const home = event.target.closest("[data-action='home']");
     const lang = event.target.closest("[data-lang]");
     const option = event.target.closest("[data-option-value]");
     const back = event.target.closest("[data-action='back']");
@@ -395,6 +397,11 @@ function initApp() {
     const articleTrigger = event.target.closest("[data-article]");
     const articleClose = event.target.closest("[data-action='close-article']");
     const disabledArticleLink = event.target.closest("[data-disabled-link]");
+
+    if (home) {
+      event.preventDefault();
+      resetToLanding();
+    }
 
     if (start) {
       showView("wizard");
@@ -482,7 +489,11 @@ function setLanguage(lang) {
     button.setAttribute("aria-pressed", String(active));
   });
 
-  if (document.querySelector("[data-view='wizard']").classList.contains("is-active")) {
+  if (state.wizardMode === "success") {
+    renderSuccess();
+  } else if (state.wizardMode === "terminated") {
+    renderTermination();
+  } else if (document.querySelector("[data-view='wizard']").classList.contains("is-active")) {
     renderStep();
   }
 }
@@ -502,6 +513,7 @@ function showView(name) {
 }
 
 function setStep(step) {
+  state.wizardMode = "editing";
   state.currentStep = step;
   renderStep();
 }
@@ -586,6 +598,7 @@ function goBack() {
 }
 
 function renderTermination() {
+  state.wizardMode = "terminated";
   const t = copy[state.lang];
   questionContent.innerHTML = `
     <div class="result-screen">
@@ -598,6 +611,7 @@ function renderTermination() {
 }
 
 function renderSuccess() {
+  state.wizardMode = "success";
   const t = copy[state.lang];
   progressFill.style.width = "100%";
   questionContent.innerHTML = `
@@ -639,6 +653,16 @@ function renderServiceText(text) {
     <p>- ${escapeHtml(text.line)}</p>
     <ul>${items}</ul>
   `;
+}
+
+function resetToLanding() {
+  state.currentStep = 0;
+  state.wizardMode = "editing";
+  state.submitting = false;
+  hideTooltip();
+  if (textDialog.open) textDialog.close();
+  if (articleDialog.open) articleDialog.close();
+  showView("landing");
 }
 
 function openArticle(articleId) {
