@@ -739,6 +739,12 @@ h1 {
   text-underline-offset: 0.18em;
 }
 
+.article-link.is-disabled {
+  cursor: not-allowed;
+  color: var(--muted);
+  text-decoration-style: dashed;
+}
+
 @keyframes viewIn {
   from {
     opacity: 0;

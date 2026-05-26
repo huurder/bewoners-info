@@ -36,6 +36,8 @@ const copy = {
     trustTwoBody: "Controleer online of uw huur redelijk is volgens Nederlandse normen.",
     trustThreeTitle: "Bouw mee aan een huurderscommissie",
     trustThreeBody: "Sta samen sterker voor onze rechten als huurders.",
+    trustFourTitle: "Download de campagnebrief",
+    trustFourBody: "Kent u huurders die nog niet zijn geinformeerd?",
     articleReadMore: "Lees meer",
     articleKicker: "Informatie voor huurders",
     articleClose: "Sluiten",
@@ -127,6 +129,17 @@ const copy = {
           "Daarnaast moet de verhuurder een huurderscommissie een overzicht van alle huurders verstrekken. Dat zou onze positie rond de servicekosten sterk verbeteren, omdat we huurders dan veel gerichter kunnen bereiken en samen kunnen optreden.",
           "Geef daarom in de vragenlijst aan of u openstaat voor ondersteuning van de commissie, ook als u denkt dat u niet de ideale kandidaat bent. We hebben drie huurderspartijen nodig die officieel een bestuursrol willen vervullen."
         ]
+      },
+      campaignPdf: {
+        kicker: "Campagnemateriaal",
+        title: "Download de campagnebrief",
+        paragraphs: [
+          "Deze campagne is begonnen met brieven in de brievenbussen van huurders van Barnstijn Beheer. Op dit moment kennen we echter nog maar een deel van alle huurders.",
+          "Kent u andere huurders die nog niet zijn geinformeerd, of wilt u de brief om een andere reden delen? Dan kunt u de oorspronkelijke campagnebrief hier opnieuw downloaden zodra het bestand beschikbaar is."
+        ],
+        linkText: "Download de campagnebrief (PDF volgt)",
+        linkUrl: "#",
+        isPlaceholderLink: true
       }
     }
   },
@@ -142,6 +155,8 @@ const copy = {
     trustTwoBody: "Check whether your rent is reasonable by Dutch local standards.",
     trustThreeTitle: "Let’s build a tenant committee",
     trustThreeBody: "Stand together for our rights as tenants.",
+    trustFourTitle: "Download the campaign PDF",
+    trustFourBody: "Do you know tenants who have not been informed yet?",
     articleReadMore: "Read more",
     articleKicker: "Tenant information",
     articleClose: "Close",
@@ -233,6 +248,17 @@ const copy = {
           "The landlord must also provide the tenant committee with a list of all tenants. That would dramatically improve our position on the service-cost issue, because we could reach other tenants directly and organize more effectively.",
           "That is why it matters to say in the survey whether you are open to supporting the committee, even if you do not think you are the perfect candidate. We need three tenant parties who are willing to officially hold a board position."
         ]
+      },
+      campaignPdf: {
+        kicker: "Campaign material",
+        title: "Download the campaign PDF",
+        paragraphs: [
+          "This campaign started by delivering letters to Barnstijn Beheer tenants' letterboxes. So far, however, only a fraction of tenants are known to us.",
+          "If you know other tenants who have not been informed yet, or if you need it for any other purpose, you will be able to download the original campaign letter here once the PDF is available."
+        ],
+        linkText: "Download the campaign letter (PDF coming soon)",
+        linkUrl: "#",
+        isPlaceholderLink: true
       }
     }
   }
@@ -368,6 +394,7 @@ function initApp() {
     const textAction = event.target.closest("[data-action='open-text'], [data-action='close-text']");
     const articleTrigger = event.target.closest("[data-article]");
     const articleClose = event.target.closest("[data-action='close-article']");
+    const disabledArticleLink = event.target.closest("[data-disabled-link]");
 
     if (start) {
       showView("wizard");
@@ -396,6 +423,10 @@ function initApp() {
 
     if (articleClose) {
       articleDialog.close();
+    }
+
+    if (disabledArticleLink) {
+      event.preventDefault();
     }
 
     if (hotspot) {
@@ -629,7 +660,7 @@ function renderArticle(article) {
     .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
     .join("");
   const link = article.linkUrl
-    ? `<p><a class="article-link" href="${escapeAttribute(article.linkUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(article.linkText)}</a></p>`
+    ? `<p><a class="article-link${article.isPlaceholderLink ? " is-disabled" : ""}" href="${escapeAttribute(article.linkUrl)}" ${article.isPlaceholderLink ? "aria-disabled='true' data-disabled-link='true'" : "target='_blank' rel='noopener noreferrer'"}>${escapeHtml(article.linkText)}</a></p>`
     : "";
   return `${paragraphs}${link}`;
 }
