@@ -26,7 +26,7 @@ const state = {
 
 const copy = {
   nl: {
-    brandSubtitle: "Huurdersinitiatief",
+    brandSubtitle: "Barnstijn tenants · Huurdersinitiatief",
     landingEyebrow: "Samen organiseren",
     landingHeadline: "Huurders van Barnstijn Beheer B.V. – Laten we samen sterk staan.",
     landingBody: "Onze gezamenlijke verhuurder is geen klein familiebedrijf, maar een grote institutionele verhuurder. Daardoor kunt u zich als huurder soms klein voelen. Wordt uw stem gehoord bij servicekosten, huurverhogingen of noodzakelijke reparaties? Laten we ons verenigen en samen duidelijker hoorbaar worden.",
@@ -145,7 +145,7 @@ const copy = {
     }
   },
   en: {
-    brandSubtitle: "Tenant initiative",
+    brandSubtitle: "Barnstijn tenants · Tenant initiative",
     landingEyebrow: "Organizing together",
     landingHeadline: "Tenants of Barnstijn Beheer B.V. – Let's stand together.",
     landingBody: "Our common landlord is not the small family business you might imagine, but a major institutional landlord. That can leave tenants feeling small. Do you feel heard when it comes to service costs, rent increases, or necessary repairs? Let’s team up and make our voice heard.",

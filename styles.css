@@ -96,13 +96,15 @@ input:focus-visible {
 }
 
 .brand-title {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 800;
+  letter-spacing: 0;
 }
 
 .brand-subtitle {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
+  font-weight: 650;
 }
 
 .language-switch {
